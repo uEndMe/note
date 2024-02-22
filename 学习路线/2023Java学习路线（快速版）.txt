@@ -1,0 +1,19 @@
+// 2023Java学习路线（快速版）
+https://www.bilibili.com/read/cv5216534/
+
+核心基础：Java基础→MySQL→JDBC→JavaWeb
+
+微服务核心：Maven→Gradle→Spring6→SpringMVC→MyBatis→MyBatisPlus→SSM
+
+→Redis7→SpringBoot2→SpringCloud
+
+微服务生态：Git→Docker→Elasticsearch→ZooKeeper→Nginx→SpringSecurity→
+
+ActiveMQ→RabbitMQ→RocketMQ→K8S→MySQL面试题→大厂面试题第2季→大厂面试题第3季
+
+项目实战：尚筹网→云尚办公→谷粒学苑→尚医通→硅谷课堂→尚融宝→谷粒商城(大型重磅) 作者：尚硅谷 https://www.bilibili.com/read/cv5216534/ 出处：bilibili
+
+
+// 其他路线
+https://www.cnblogs.com/gaoj1/p/16202414.html
+https://juejin.cn/post/7069705040679829517
