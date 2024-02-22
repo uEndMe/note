@@ -2,7 +2,7 @@ todo cbs
 
 143 String的实例化与连接操作
 
-# 第11章 常用类和基础api 5.java比较器
+# 第12章_集合框架/实现类
 
 
 # JavaEE
@@ -3714,12 +3714,12 @@ long nextLong();
 ```
 
 ```java
-// 遍历
-forEach();			// 迭代
-
-// 转换
+// 迭代
 iterator();			// 迭代器 // Iterator
-spliterator();	// 并行迭代器 // Spliterator
+
+// 遍历
+default forEach();			// 迭代
+default spliterator();	// 并行迭代器 // Spliterator
 ```
 
 
@@ -3838,8 +3838,8 @@ subList();	// 截取
 listIterator();		// 有序迭代器
 
 // 工具
-List.copyof();		// 集合转序列
-List.of();				// 元素转序列
+List.copyof();		// 集合转序列，只读副本
+List.of();				// 元素转序列，只读
 ```
 
 
@@ -3878,8 +3878,8 @@ List.of();				// 元素转序列
 同集合
   
 // 工具
-List.copyof();		// 集合转序列
-Set.of();					// 元素转散列
+Set.copyof();			// 集合转散列，只读副本
+Set.of();					// 元素转散列，只读
 ```
 
 
@@ -3888,6 +3888,10 @@ Set.of();					// 元素转散列
 
 ```
 有序的不重复集合，有序键集合
+```
+
+```
+
 ```
 
 
@@ -3902,19 +3906,15 @@ Set.of();					// 元素转散列
 ```
 
 ```java
-// 查询
-element();		// 查询
-peek();				// 尝试查询
-
 // 操作
+element();		// 查询
 add();				// 插入
-offer();			// 尝试插入
 remover();		// 删除
-poll();				// 尝试插入
-```
 
-```
-* 当元素不存在时报错，尝试时不会报错
+// 尝试 // 元素不存在时，放弃
+peek();				// 尝试查询
+offer();			// 尝试插入
+poll();				// 尝试删除
 ```
 
 
@@ -3923,6 +3923,10 @@ poll();				// 尝试插入
 
 ```
 双端队列，集合的修改接口（两端）
+```
+
+```
+// 略
 ```
 
 
@@ -3937,12 +3941,78 @@ poll();				// 尝试插入
 映射组，键值对映射的对象
 ```
 
+```java
+// 查询
+size();						// 数量
+isEmpty();				// 为空
+
+get();						// 读取
+getOrDefault();		// 读取
+
+containsKey();		// 含有键
+containsValue();	// 含有值
+
+keySet();					// 键集合 // Set
+values();					// 值集合 // Collection
+entrySet();				// 键值对 // Set<Map.Entry>
+
+// 操作
+put();			// 放入
+putAll();		// 放入
+remove();		// 移除
+clear();		// 清空
+
+forEach();					// 遍历条目
+
+putIfAbsent();			// 尝试放入
+replace();					// 尝试替换
+replaceAll();				// 批量替换 // (k,v) -> v
+
+compute();					// 计算 // (k, (k,v) -> v)
+computeIfAbsent();	// 计算，仅不存在
+computeIfPresent();	// 计算，仅存在
+merge();						// 值合并 // (k, v, (v1, v2) -> v1 + v2)
+
+// 转换
+Map.copyof();		// 集合转映射，只读副本
+Map.of();				// 元素转映射，只读
+
+Map.ofEntries();	// 映射集转映射，只读
+Map.entry();			// 映射转条目，只读
+```
+
+
+
+> * Entry
+>
+> ```
+> 条目，一对键值对
+> ```
+>
+> ```
+> // 操作
+> getKey();			// 键
+> getValue();		// 值
+> setValue();		// 设置
+> 
+> // 转换
+> Entry.copyof();							// 条目复制，只读副本
+> 
+> Entry.comparingByKey(); 		// 比较器，按键排序
+> Entry.comparingByValue();		// 比较器，按值排序
+> ```
+>
+
 
 
 #### SortedMap
 
 ```
 有序的映射组，有序的键值对映射对象
+```
+
+```
+
 ```
 
 
@@ -3955,6 +4025,26 @@ poll();				// 尝试插入
 
 ```
 集合工具类
+```
+
+```java
+// List
+reverse();			// 反转
+shuffle();			// 洗牌
+sort();					// 排序
+swap();					// 交换
+binartSearch();	// 二分查找
+
+copy();					// 伪复制 (替换)
+replaceAll();		// 替换
+
+// Collection
+max();				// 最大 // 对象
+min();				// 最小 // 对象
+fill();
+
+frequency;		// 计数 // 非肯西
+addAll();			// 放入
 ```
 
 
@@ -5196,19 +5286,23 @@ System.out			- 标准输出流
 
 
 
-# JDK8-17新特性
-
 # ----
 
 
 
-# 
-
-# 
-
-# 
+# Lambda
 
 
+
+# Functional
+
+
+
+# Stream
+
+
+
+# JDK9-17新特性
 
 
 
