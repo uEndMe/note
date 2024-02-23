@@ -7,7 +7,9 @@ todo cbs
 
 # JavaEE
 
-[API 文档](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)    [oracle 官网](http://www.oracle.com)        [bilibili](https://www.bilibili.com/video/BV1PY411e7J6/)        [github中文笔记](https://zq99299.github.io/java-tutorial/java/)        [优秀笔记-二哥](https://javabetter.cn/home.html)
+[API 文档](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)  [oracle 官网](http://www.oracle.com)
+[bilibili](https://www.bilibili.com/video/BV1PY411e7J6/)
+[github中文笔记](https://zq99299.github.io/java-tutorial/java/)  [优秀笔记-二哥](https://javabetter.cn/home.html)
 
 ```
 面向对象的高级编程语言。
@@ -2292,22 +2294,6 @@ ____________________
 
 
 
-----
-
-```
-
-```
-
-
-
-
-
-
-
-### 
-
-
-
 # 常用类与API
 
 >本地文档：\db\book\JDK_API_1.6_zh_中文.CHM
@@ -2351,7 +2337,7 @@ Double.parseDouble(String);  // 转double
 
 
 
-
+#### ----
 
 #### Arrays
 
@@ -2363,30 +2349,23 @@ java.util.Arrays      // 数组工具
 
 ```java
 // 操作
-fill();        // 填充 // arr,val
-fill();        // 填充范围 // arr,s,e,val
-sort();        // 排序 升序
-sort();        // 排序 部分 a,s,e
+swap();             // 交换
+fill();             // 填充
+sort();             // 排序
+setAll();           // 批量转换
 
-// 运算
+// 计算
+equals()            // 相等
+binarySearch();     // 二分查找
+parallelPrefix();   // 累加
 
-binarySearch();    // 二分查找 // arr,val
-binarySearch();    // 二分查找范围 // arr,s,e,val
-equals();          // 相等 // arr1,arr2
-deepEquals();      // 深度相等 // arr1,arr2
-  
-// 收集
-copyOf();         // 复制 // arr,len
-copuOfRange();    // 复制范围 // arr,s,e
-asList();         // 换列表（包装类数组）// arr
-asList();         // 换列表（散列） // el...
-toString();       // 转字符 // arr
-deepToStreing();  // 深度转字符 // arr
+// 转换
+toString();         // 字符串
+copyOf();           // 复制，按长度
+copyOfRange();      // 复制，按范围
+asList();           // 序列，长度固定
+stream();           // 流
 ```
-
-
-
-#### ----
 
 
 
@@ -2399,46 +2378,51 @@ java.lang.System
 * 静态
 
 ```java
+// 流
 in;                // 输入流（键盘）
 out;              // 输出流（显示器）
-  out.print();        // 打印
-  out.println();      // 打印换行
+out.print();        // 打印
+out.println();      // 打印换行
 err;              // 错误输出流（显示器）
 
+// 查询
 currentTimeMillis();   // 时间戳
 nanoTime();            // 纳秒 （仅测量时长）
+getProperty();         // 系统属性
+
+// 操作
 arraycopy();           // 数组复制 // a,0,b,0,len
 exit(0);               // 退出系统
 gc();                 // 运行垃圾回收器
-getProperty();         // 系统属性
 ```
 
-```java
-// 系统属性
-  java.version    // java 运行时环境版本
-  java.home        // java 安装目录
-  os.name          // 操作系统名称
-  os.version      // 操作系统版本
-  user.name        // 用户名
-  user.home        // 用户目录
-  user.dir        // 当前工作目录
-```
+> ```
+> // 系统属性
+>   java.version    // java 运行时环境版本
+>   java.home        // java 安装目录
+>   os.name          // 操作系统名称
+>   os.version      // 操作系统版本
+>   user.name        // 用户名
+>   user.home        // 用户目录
+>   user.dir        // 当前工作目录
+> ```
+>
 
 
 
 #### Runtime
 
-* 静态
-
 ```java
-getRuntime();        // 运行时对象
+* 运行时对象
 ```
 
-* 方法
-
 ```java
+// 实例化
+Runtime.getRuntime();        // 运行时对象
+
+// 查询
 totalMemory();      // 总内存
-freeMemory();        // 空闲内存
+freeMemory();       // 空闲内存
 ```
 
 
@@ -3671,38 +3655,41 @@ long nextLong();
 ```java
 // 集合
 - Iterable     // 迭代
-      - Collection  // 集合
-          - Set        // 散列
-              - SortedSet      // 升序散列
-              * HashSet        // 散列
-              * TreeSet        // 树
-              * LinkedHashSet  // 链式散列
-  
-          - List      // 序列
-              * ArrayList    // 动态数组
-              * LinkedList  // 双向链表
-  
-          - Queue      // 队列
-              - Deque        // 双向队列
-                * ArrayDeque    // 双向队列
-              * LinkedList  // 双向链表
+    - Collection  // 集合
+        - Set        // 散列
+            - SortedSet      // 有序散列
+                * linkedHashSet   // 链式散列     // 有序唯一，适用有序枚举
+                * TreeSet         // 树形散列     // 定序唯一，适用定序枚举
+            * HashSet        // 散列        // 唯一性，适用枚举
+        
+        - List      // 序列
+            * ArrayList   // 动态数组 // 硬盘有序，适用读频繁
+            * LinkedList  // 双向链表 // 引用有序，适用写频繁
+            * Vector      // 动态数组-线程安全
+        
+        - Queue      // 队列
+            - Deque       // 双向队列
+                * LinkedList  // 双向链表
             
 // 映射组
 - Map
     - SortedMap      // 升序哈希表
-    * HashMap        // 哈希表
-    * TreeMap        // 有序哈希表
-    * LinkedHashMap  // 链式哈希表
+        * LinkedHashMap  // 链表+哈希表   // 适用自然排序 + 映射
+        * TreeMap        // 红黑树       // 适用定制排序 + 映射
+    * HahsMap         // 哈希表      // 适用映射图
+    * Hashtable       // 哈希表 + 线程安全
+    * Properties      // 哈希表 + 线程安全 + 属性图  // 用于属性文件
 ```
+
 
 ```java
 // 并发集合
 - Set
-    * CopyOnWriteArraySet    // 副本散列，写时复制
+    * CopyOnWriteArraySet   // 副本散列，写时复制
 - List
     * CopyOnWriteArrayList  // 副本序列，写时复制
 - Map
-    * ConcurrentHashMap      // 并发图，锁分段技术
+    * ConcurrentHashMap     // 并发图，锁分段技术
 ```
 
 
@@ -3837,12 +3824,14 @@ subList();  // 截取
 // 转换
 listIterator();    // 有序迭代器
 ```
+
 ```java
 // 实现类
-ArrayList       // 动态数组
-LinkedList      // 双向链表
+ArrayList       // 动态数组 // 硬盘有序，适用读频繁
+LinkedList      // 双向链表 // 引用有序，适用写频繁
 Vector          // 动态数组-线程安全
-
+        
+CopyOnWriteArrayList  // 副本序列，写时复制
 ```
 
 
@@ -3868,7 +3857,6 @@ Vector          // 动态数组-线程安全
 
 
 
-
 ### Set
 
 ```
@@ -3877,23 +3865,20 @@ Vector          // 动态数组-线程安全
 
 ```java
 // 方法
-同集合
+同 Collection
 ```
 
+```java
+// 子接口
+SortedSet       // 有序的不重复集合，有序键集合
+        
+// 实现类
+HashSet         // 散列        // 唯一性，适用枚举
+linkedHashSet   // 链式散列     // 有序唯一，适用有序枚举
+TreeSet         // 树形散列     // 定序唯一，适用定序枚举
 
-
-#### SortedSet
-
+CopyOnWriteArraySet   // 副本散列，写时复制
 ```
-有序的不重复集合，有序键集合
-```
-
-```
-
-```
-
-
-
 
 
 
@@ -3915,16 +3900,9 @@ offer();      // 尝试插入
 poll();        // 尝试删除
 ```
 
-
-
-#### Deque
-
-```
-双端队列，集合的修改接口（两端）
-```
-
-```
-// 略
+```java
+// 子接口
+Deque       // 双端队列，集合的修改接口（两端）
 ```
 
 
@@ -3936,7 +3914,7 @@ poll();        // 尝试删除
 ### Map
 
 ```
-映射组，键值对映射的对象
+哈希表，键值对的集合
 ```
 
 ```java
@@ -3972,6 +3950,19 @@ computeIfPresent();  // 计算，仅存在
 merge();            // 值合并 // (k, v, (v1, v2) -> v1 + v2)
 ```
 
+```java
+// 子接口
+SortedMap       // 有序哈希表，有序的键值对集合
+  
+// 实现类
+HahsMap         // 哈希表          // 适用映射图
+LinkedHashMap   // 链表+哈希表      // 适用自然排序 + 映射
+TreeMap         // 红黑树          // 适用定制排序 + 映射
+Hashtable       // 线程安全
+Properties      // 线程安全，属性图  // 用于属性文件
+
+ConcurrentHashMap     // 并发图，锁分段技术
+```
 
 
 > * Entry
@@ -3987,24 +3978,10 @@ merge();            // 值合并 // (k, v, (v1, v2) -> v1 + v2)
 > setValue();    // 设置
 > 
 > // 转换
-> Entry.copyof();              // 条目复制，只读副本
-> 
 > Entry.comparingByKey();     // 比较器，按键排序
 > Entry.comparingByValue();    // 比较器，按值排序
 > ```
 >
-
-
-
-#### SortedMap
-
-```
-有序的映射组，有序的键值对映射对象
-```
-
-```
-
-```
 
 
 
@@ -4057,32 +4034,6 @@ asLifoQueue();      // 双端队列转栈
 
 
 
-### Arrays
-
-```
-数组工具类
-```
-
-```java
-// 操作
-swap();             // 交换
-fill();             // 填充
-sort();             // 排序
-setAll();           // 批量转换
-
-// 计算
-equals()            // 相等
-binarySearch();     // 二分查找
-parallelPrefix();   // 累加
-
-// 转换
-toString();         // 字符串
-copyOf();           // 复制，按长度
-copyOfRange();      // 复制，按范围
-asList();           // 序列，长度固定
-stream();           // 流
-```
-
 
 
 ### ----
@@ -4090,6 +4041,215 @@ stream();           // 流
 
 
 # 泛型
+
+```
+形参类型
+```
+
+
+
+### 泛型类
+
+```
+* 泛型类： Person<T>
+* 泛型使用单大写通配，可写多个
+* 泛型不支持多态,静态成员
+```
+
+```java
+public class Person<T> { // 声明泛型
+	private T data;  // 泛型属性
+  public T get() {} // 泛型方法
+}
+```
+
+* 使用
+
+```java
+// 1. 引用，实例，分别确定泛型
+Person<String> p1 = new Person<String>();
+// 2. 类型推断简写
+Person<String> p2 = new Person<>();
+```
+
+```java
+// 1. 继承时确定
+class Student1 extends Person<String>{}
+// 2. 继承泛型
+class Student2<T> extends Person<T>{}
+```
+
+
+
+> ```
+> // 多个泛型
+> public class Person<T,U,K,W> {}
+> ```
+
+> ```
+> * 异常类不支持泛型
+> ```
+
+> ```
+> // 实例化泛型数组
+> T[] arr = (T[])new Object[10];
+> ```
+
+
+
+### 泛型接口
+
+```
+* 泛型类： Person<T>
+* 泛型使用单大写通配，可写多个
+* 泛型不支持多态,静态成员
+```
+
+```java
+public interface Person<T> { // 声明泛型
+  public T get(T x);// 泛型方法
+}
+```
+
+* 使用
+
+```java
+// 1. 实现时确定
+class Student1 implements Person<String>{}
+// 2. 实现泛型
+class Student2<T> implements Person<T>{}
+```
+
+
+
+> ```
+> // 多个泛型
+> public class Person<T,U,K,W> {}
+> ```
+
+
+
+### 泛型方法
+
+```java
+// 声明泛型 // 修饰符后面
+public static <T> void sort(T[] arr){}
+```
+
+> ```
+> * 一般适用于静态方法
+> ```
+
+
+
+### ----
+
+
+
+### 泛型上限
+
+```
+* 继承一个类，放在首位
+* 添加多个接口上限，使用 & 连接
+```
+
+```java
+// 1. 单个上限
+class Person<T extends Number> {}
+// 2. 多个上限
+class Person<T extends Number & Comparable<T>> {}
+```
+
+
+
+### 泛型擦除
+
+```
+当调用泛型类/接口时，未指定类型。
+默认为首位上限，没有则为Object
+```
+
+
+
+### 类型通配符
+
+* <?>任意类型
+
+```java
+// 允许传入泛型的任意类型
+public static void fn(Person<?>[] arr) {}
+```
+
+> ```
+> * 一般需要配合 extends 使用才能使用该类型属性
+> ```
+>
+> ```
+> void function(List<Object>){}
+> void function(List<?>){}
+> function(new List<String>()); 
+> 
+> // 调用第一种方法，编译错误
+> // 原因：String是Object的子类，
+> // 但List<String>不是List<Object>的子类，
+> // 所以引入了通配符。
+> ```
+
+
+
+
+* <? super 下限>
+
+```
+* 声明时约定下限，保证调用者获取一个下限的类型
+```
+
+```java
+public static void initNumber(Consumer<? super Number> consumer) {
+  // 指定一个下限类型，声明时写入
+  consumer.accept(111); // consumer.accept(111L);
+}
+
+// 调用时，获取这个下限类型
+initNumber(i -> {
+  Number n = i;
+});
+```
+
+> ```
+> * 调用引用时，本类及父类以上 （该类型及以上父类到Object）
+> ```
+
+
+
+
+* <? extends 上限>  
+
+```
+* 声明时确定上限，调用者必须传入指定类型
+```
+
+```java
+// 指定一个上限类型，声明时读取
+public static <T extends Number> void use(T i) {
+  System.out.println(i.intValue() + 1);
+}
+
+// 调用时，写入这个上限类型
+use(111); // suer(111L);
+```
+
+> ```
+> * 调用传入时，实现接口 （该类型及子类型）
+> ```
+
+
+
+### 泛型嵌套
+
+```java
+Set<Map.Entry<String,Integer>> entry = map.entrySet();
+```
 
 
 
