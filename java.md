@@ -3837,7 +3837,13 @@ subList();  // 截取
 // 转换
 listIterator();    // 有序迭代器
 ```
+```java
+// 实现类
+ArrayList       // 动态数组
+LinkedList      // 双向链表
+Vector          // 动态数组-线程安全
 
+```
 
 
 
