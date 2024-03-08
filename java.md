@@ -4257,6 +4257,241 @@ Set<Map.Entry<String,Integer>> entry = map.entrySet();
 
 
 
+```java
+// 反射机制
+动态语言的关键。
+执行期间获取类信息，操作任意对象属性
+```
+
+```
+类加载完毕，一个映射类信息的对象。
+```
+
+  
+
+### Class
+
+```
+Class类对象
+```
+
+
+
+* 获取
+
+```java
+// 获取Class类对象 方式
+Person.class;			// 类
+p.getClass();			// 实例
+Class.forName();	// 完整类名，"com.me.a.Person"
+classLoader.loadClass();	// 类加载器 + 完整类名
+```
+
+```
+* 类加载器：Person.class.getClassLoader();
+```
+
+> ```
+> 系统类，无法通过类加载器获得Class类对象。 如：Object
+> ```
+
+
+
+* 方法
+
+```java
+getName();				// 完整类名
+getSimpleName();	// 简单类名（不含包名）
+
+getPackage();			// 包对象
+getSupercalss();	// 父类的Class类对象
+newInstance();		// 无参构造
+  
+// 本类 public
+getFields();			// 属性组  Field[]
+getField();				// 属性
+getMethods();			// 方法组  Method[]
+getMethod();			// 方法
+getConstructors();// 构造组 Constructor[]
+getConstructor();	// 构造器
+
+// 本类	 // 跌可类e的
+getDeclaredFields();	// 属性组  Field[]
+getDeclaredField();		// 属性
+getDeclaredMethods();	// 方法组  Method[]
+getDeclaredMethod();	// 方法
+getDeclaredConstructors();// 构造组 Constructor[]
+getDeclaredConstructor();	// 构造器
+```
+
+
+
+> ```
+> // 获取有参方法
+> getMethod("fn",int.class)
+> // 基本类型的类对象
+> int.class  // xx.class 是一个关键字，不是属性
+> ```
+
+> ```
+> // 构造方法不能继承
+> getConstructors();// 不含继承
+> ```
+
+
+
+#### Field
+
+```
+类属性信息
+```
+
+```java
+getModifiers();	// 修饰符编号 int
+getType();			// 类型 Class
+getName();			// 属性名 key
+```
+
+```
+// 转换 修饰符编号
+Modifier.toString(field.getModifiers())
+```
+
+
+
+#### Method
+
+```
+类方法信息
+```
+
+```java
+getModifiers();		// 修饰符编号 int
+getReturnType();	// 返回类型 Class
+getName();				// 方法名
+getParametersType();	// 参数类型组 Class[]
+getDeclaringClass();	// 声明时 Interface || Class
+```
+
+
+
+#### Modifiers
+
+```
+访问修饰符
+```
+
+* 静态方法
+
+```java
+toString();		// 解析修饰符编号
+```
+
+
+
+
+
+### 类加载
+
+```
+class文件的加载过程
+```
+
+```
+类在内存中的生命周期：加载-->使用-->卸载
+```
+
+```java
+// 加载过程
+1. load					// 加载
+2. link					// 连接
+3. initialize		// 初始化
+```
+
+```
+加载时机：import,new之前
+```
+
+
+
+### 反射应用
+
+```
+获取类型详细信息
+```
+
+
+
+#### 创建对象
+
+```java
+Class c = Person.class;
+// 无参对象
+Object p = c.newInstance();
+
+// 有参对象
+Constructor con = c.getDeclaredConstructor(
+  String.class,int.class,String.class
+);
+Object p = con.newInstance("Tom",20,"男");
+```
+
+
+
+#### 操作属性
+
+```java
+Class c = Person.class;
+// 获得属性
+Field name = c.getDeclaredField("name");
+name.setAccessible(true); // 私有属性开启访问权限
+// 设置属性
+name.set(p,"Jerry");
+// 读取属性
+name.get(p)
+```
+
+> * 静态属性
+>
+> ```
+> Class c = Person.class;
+> // 获得属性
+> Field school = c.getDeclaredField("school");
+> // 设置属性
+> school.set(null,"Jerry");
+> // 读取属性
+> school.get(null)
+> ```
+
+
+
+#### 调用方法
+
+```java
+Class c = Person.class;
+// 获得方法
+Method fn = c.getDeclaredMethod(
+  "sayHello",String.class
+);
+fn.setAccessible(true); // 私有属性开启访问权限
+// 调用方法
+fn.invoke(p,"hello");
+```
+
+
+
+### 工具类
+
+```
+todo cbs 
+```
+
+
+
+
+
+
+
 # ----
 
 
