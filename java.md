@@ -4,8 +4,10 @@
 # JavaEE
 
 [API 文档](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)  [oracle 官网](http://www.oracle.com)
-[bilibili](https://www.bilibili.com/video/BV1PY411e7J6/)
-[github中文笔记](https://zq99299.github.io/java-tutorial/java/)  [优秀笔记-二哥](https://javabetter.cn/home.html)
+
+[bilibili 教程](https://www.bilibili.com/video/BV1PY411e7J6/)  [github 中文笔记](https://zq99299.github.io/java-tutorial/java/)  [优秀笔记-二哥](https://javabetter.cn/home.html)
+
+[本地完整笔记](db\book\《Java从入门到精通(JDK17版)》_尚硅谷电子书.docx)
 
 ```
 面向对象的高级编程语言。
