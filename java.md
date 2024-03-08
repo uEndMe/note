@@ -5813,6 +5813,357 @@ todo cbs
 
 
 
+```
+直接或间接的通过网络协议与其他计算机进行数据通讯
+```
+
+```java
+// 网络传输
+IP				- 定位主机
+端口号			- 定位程序
+网络协议	  - 高效传输
+```
+
+```
+// 软件结构
+C/S结构			- Clinet/Server 客户端服务端结构
+B/S结构			- Browser/Server 浏览器服务器结构
+```
+
+
+
+### IP
+
+```
+计算机唯一标识。 
+```
+
+```
+IPV4			- 4字节，如:  255.255.255.255
+IPV6			- 16字节， 8个整数，每个整数ffff, 如：fffff:ffff ...(8段)
+```
+
+```
+公网地址（万维网）		- 
+私有地址（局域网）		- 192.168
+```
+
+```
+本地回环地址： 127.0.0.1		- 对应主机名：localhost
+```
+
+
+
+* InetAddress 类
+
+```java
+// 实例化
+// 方式一：直接写ip 		// /192.168.10.14
+InetAdderss inet = InetAddress.getByName("192.168.10.14");
+// 方式二：写域名 		//  www.atguigu.com/112.54.108.102
+InetAdderss inet = InetAddress.getByName("www.atguigu.com");
+```
+
+> ```
+> // 获取本机地址
+> InetAddress.getLocalHost();
+> 
+> ```
+
+```
+// 方法
+getHostName();				- 域名 // www.atguigu.com
+getHostAddress();			- 本机地址 // 112.54.108.102
+
+```
+
+
+
+### 端口号
+
+```
+标识计算机中的进程。		// 16整数 0~65535
+
+```
+
+```
+端口分类
+	公认端口				- 0-1023，预定义
+	注册端口				- 1024-49151，用户使用
+	动态/私有端口		 - 49152-65535
+
+```
+
+
+
+### 网络协议
+
+```
+OSI					- 理想模型，未推广
+TCP/IP			- 国际标准
+
+```
+
+```
+指定通讯中的标准，如：对速率，传输代码，代码结构，传输控制步骤，出错控制
+
+```
+
+* 协议分层 （TCP/IP 模型）
+
+```
+应用层					- HTTP,FTP,TeInet,DNS ...
+传输层					- TCP,UDP ...
+网络层					- IP,ICMP,ARP ...
+物理数据链路层	  - Link 
+
+```
+
+> ```
+> 应用层		- 应用+表示+会话，为应用进程提供服务，如 http
+> 传输层		- 逻辑通信，如 TCP, UDP
+> 网络层		- 网络连接的建立，IP的寻找，如 路由器，防火墙，IP
+> 接口层		- 链路+物理，传输线路，以及物理媒介
+> 
+> ```
+
+* 传输层
+
+```
+TCP协议
+	客户端通过“三次握手”向服务端建立连接，可传输大量数据。
+	可靠，需要释放连接，效率低
+UDP协议
+	将资源封装为数据包（64k），可以广播发送
+	不可靠，无需释放资源，开销小，速度快
+
+```
+
+> ```
+> TCP协议，释放连接，需要四次挥手
+> 
+> ```
+
+
+
+
+
+### Socket
+
+```
+套接字
+
+```
+
+```
+流套接字
+	* ServerSocket	- TCP服务器
+	* Socket				- 客户端
+
+数据报套接字
+	* DatagramSocket	- 传输UDP数据包
+
+```
+
+
+
+### TCP
+
+```
+面向连接的、可靠的、基于字节流的端对端传输层通信协议。
+```
+
+
+
+客户端
+
+```java
+// 1. 创建Socket对象，指明服务器IP，端口号
+Socket socket = new Socket( // 实例化
+  InetAddress.getByName("127.0.0.1"),8899 // 主机 + 端口
+);
+// 2. 获取输出流
+OutputStream os = socket.getOutputStream(); // 输出流
+
+// 3. 发送
+os.write("hello servers !".getBytes()); // 发送消息
+
+// 4. 关闭
+os.close();
+socket.close();
+
+```
+
+* 方法
+
+```java
+// 普通方法
+getInputStream(); 	// 输入流
+getOutputStream();	// 输出流
+
+shutdownInput();		// 关闭输入流
+shutdownOutput();		// 关闭输出流
+
+getInetAddress();		// 连接IP
+getLocalAddress();	// 本地地址
+getPort();					// 连接端口
+getLocalPort();			// 本地端口
+
+close();	// 释放
+
+```
+
+
+
+服务器
+
+```java
+// 1. 创建服务端 ServerSocket, 指明自己端口
+ServerSocket ss = new ServerSocket(8899);
+
+// 2. 调用 accept() 接收客户端 socket
+Socket socket = ss.accept();
+
+// 3. 获取输入流
+InputStream is = socket.getInputStream();
+
+// 4. 接收
+while(true) {
+  byte[] data = new byte[1024 * 8];
+  int len = is.read(data);
+  if(len == -1) break;
+  System.out.print("[Client]\t" + new String(data,0,len));
+}
+
+// 5.关闭
+is.close();
+socket.close();
+// ss.close(); // 关闭服务器
+
+```
+
+* 方法
+
+```java
+// 构造器
+ServerSocket();		// 创建服务器 // 端口
+
+```
+
+```java
+// 普通方法
+accept();			// 建立套接字 // 返回 Socket 对象
+```
+
+* 服务端多次通讯
+
+```java
+while(true) {
+	Socket socket = ss.accept(); // 监听
+	ServerThread serverThread = 	// 传入子线程
+    	new ServerThread(socket);
+	serverThread.start();	// 启动子线程
+	// 回到主线程，继续监听...
+}
+```
+
+
+
+### UDP
+
+```
+无连接的，不可靠传输协议，延时小，效率高
+```
+
+
+
+发送端
+
+```java
+// 传输：数据，IP,端口
+byte[] data = "发送的消息".getBytes();
+InetAddress inet = InetAddress.getByName("127.0.0.1");
+
+// 数据打包
+DatagramPacket packet = new DatagramPacket(
+  data,0,data.length,inet,9090
+);
+
+// 发送
+DatagramSocket socket = new DatagramSocket();
+socket.send(packet);
+
+// 关闭
+socket.close();
+
+```
+
+
+
+
+
+接收端
+
+```java
+// 数据打包
+byte[] data = new bute[1024 * 8];
+DatagramPacket packet = new DatagramPacket(data,0,data.length);
+
+// 接收
+DatagramSocket socket = new DatagramSocket(9090);
+socket.receive(packet);
+
+// 打印
+System.out.println(
+	new String(packet.getData(), 0, packet.getLength)
+);
+
+// 关闭
+socket.close();
+```
+
+
+
+### URL
+
+```
+统一资源定位符
+```
+
+```
+http://192.168.1.100:8080/index.html#a?name=xx
+传输协议，主机名，端口，文件名，片段名，参数列表
+```
+
+```java
+URL url = new URL("http://localhost:8080/index.html");
+```
+
+```java
+getProtocol();		// 协议名
+getHost();				// 主机名
+getPort();				// 端口
+getPath();				// 文件路径
+getFile();				// 文件名
+getQuery();				// 查询名
+```
+[cache.db](..%2F..%2F..%2F..%2Fcache.db)
+
+
+### ----
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ----
 
 
