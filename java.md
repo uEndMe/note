@@ -6409,6 +6409,124 @@ getQuery();				// 查询名
 
 # Lambda
 
+```
+支持函数式编程思想的一种方式
+```
+
+```java
+MyInterface p = s -> System.out.println(s);
+p.fn(1);
+```
+
+
+
+### 函数式编程思想
+
+```
+强调做什么，而不是以什么形式做
+```
+
+```
+面向对象： 通过调用对应对象的方法，完成事件	（注重形式）
+函数式：	通过最简单的方式进行计算，完成事件 （注重结果）
+```
+
+
+
+### 函数式接口
+
+```java
+// 函数式接口。 // 只有一个抽象方法 （可以有多个default方法）
+@FunctionalInterface
+public interface MyInterface {
+    public void method();
+}
+```
+
+```java
+// 核心接口
+Consumer<T>			// 消费型		// void accept(T t)
+Supplier<T>			// 生产型		// get()
+Function<T,R>		// 函数型		// apply(T t)
+Predicate<T>		// 断定型		// boolean test(T t)
+```
+
+> ```
+> // Consumer<T> 默认方法
+> andThen(Consumer after)		// 之后消费 (同个对象)
+> 
+> // Function<T,R> 默认方法
+> andThen(Function after)		// 之后运算
+> compose(Function before)	// 之前运算
+> ```
+
+
+
+```java
+// 消费型接口		// 有形参，无返回
+Consumer<T>			// 消费
+BiConsumer<T,U>		// 多重消费
+DoubleConsumer		// 消费 double
+
+// 供给型接口		// 无参数，有返回
+Supplier<T>			// 生产
+BooleanSupplier		// boolean 生产
+DoubleSupplier		// double 生产
+  
+// 功能性接口			// 有参，有回
+Function<T,R>			// 类型转换
+UnaryOperator<T>		// 运算
+DoubleFunction<R>		// double -> x
+  
+// 判断型接口		// 有参，返回布尔
+Predicate<T>		// 对象判断
+BiPedicate<T,U>		// 比较
+DoublePredicate		// double 判断
+```
+
+> ```java
+> // 运行型接口
+> Runnable			// run()
+> ```
+
+
+
+### 方法引用
+
+```
+当一个方法，只执行一个相同参数的方法时，可以直接引用
+```
+
+```
+// 格式
+1. 实例 :: 普通方法		// intance :: fn
+2. 类名 :: 静态方法		// Class :: sfn
+3. 类名 :: 普通方法		// Class :: fn // a.fn(b)
+```
+
+```java
+// 格式一二
+Runnable r = s -> System.out.println(s); // lambda
+Runnable r = System.out::println; // 方法引用
+```
+
+```java
+// 格式三
+Comparetor<String> com = (a, b) -> a.compareTo(b);
+Comparetor<String> com = String::compareTo;
+```
+
+### 构造器引用
+
+```java
+Supplier<Employee> p = Employee::new;
+```
+
+```java
+// 数组引用
+Function<Integer,String[]> fn = String[]::new;
+```
+
 
 
 # Functional
@@ -6417,13 +6535,143 @@ getQuery();				// 查询名
 
 # Stream
 
+```
+及集合数据的批量操作
+```
+
+```
+* Stream 不会存储元素
+* 不改变源对象，返回新对象
+* 延迟执行，需要结果时才执行
+```
+
+```java
+// 操作步骤
+1. 创建Stream：通过数据源，获取流
+2. 中间操作：操作链，对数据源进行n次处理，并不执行
+3. 终止操作：执行中间操作链，产生最终结果，结束Stream
+```
+
+```java
+List<Integer> list = new ArrayList(); // 数据源
+Stream<Integer> stream = list.stream(); // 获取流
+Stream<Integer> stream2 = stream.distinct(); // 中间操作
+stream2.forEach(System.out::println); // 终结操作
+```
+
+> ```
+> // 链式调用
+> List<Integer> list = new ArrayList();
+> list.stream().distinct().forEach(System.out::println);
+> ```
+
+
+
+### 获取 Stream
+
+```java
+// 顺序流 获取方式
+list.stream();				// 集合
+Arrays.stream(arr);		// 数组
+Stream.of(1,2,3);			// 散列
+```
+
+> ```
+> // 顺序流 获取方式
+> Stream.concat();	// 合并流
+> Stream.iterate(0, t -> t++);		// 无限流  	// 迭代器
+> Stream.generate(Math::random);	// 无限流		// 随机数
+> // 并行流 获取方式
+> list.parallelStream();		// 集合
+> ```
+
+
+
+### 中间操作
+
+```java
+// 筛选切片
+filter();			// 过滤
+limit();			// 限制数量
+skip();				// 跳过数量
+distinct();			// 去重  // dis 定科特
+
+// 映射
+map();				// 映射
+flatMap();			// 流映射 // 需要返回一个流
+// 用于：将数组/集合转为一个子流，合并所有子流返回一个流
+// .flatMap(Arrays::stream)  
+
+// 排序
+sorted();			// 自然排序
+sorted();			// 定制排序（排序器）
+
+// 读取
+peek();				// 读取
+```
+
+
+
+### 终结操作
+
+```java
+// 匹配与查找 // Optional
+allMathc();		// every
+anyMatch();		// some
+noneMatch();	// !some
+
+findFirst();	// 首个
+findAny();		// 随机
+count();			// 计数
+max();				// 最大
+min();				// 最小
+forEach();		// 内部迭代
+
+// 归约
+reduce();			// 归约 ((a,b) -> a + b)  // 返回 Optional
+reduce();			// 归约 (init,(a,b) -> a + b)
+
+// 收集
+toArray();		// 数组
+collect(Collectors.toList()); // 收集 // 返回 List
+collect(Collectors.toSet()); // 收集 // 返回 Set
+// collect(Collectors.toMap()); // 收集 // 返回 Map
+```
+
+
+
+### Optional
+
+```
+容器对象，用于处理空指针
+```
+
+```java
+// 创建
+Optional.of();					// 非空
+Optional.empty();				// 空
+optional.ofNullable();	// 可能空
+
+// 判断
+isPresent();		// 含有对象
+ifPresent();		// 如果有，消费
+
+// 获取
+get();				// 获取
+orElse();			// 获取 （设默认值）
+orElseGet();	// 获得 （生产）
+```
+
+```java
+// 可能的 null对象，设置默认值
+String data = Optional.ofNullable(data).orElse("默认值")
+```
+
+
+
 
 
 # JDK9-17新特性
-
-
-
-
 
 
 
